@@ -4,6 +4,8 @@
 
 <img width="1918" height="885" alt="image" src="https://github.com/user-attachments/assets/bdf23332-a122-4b1a-aca1-0bf1150165c8" />
 
+**Mobile version:**
+
 <img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/1dbd40fd-f5db-41bf-8215-38d193d0a10d" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
 
 **Generative radio. One button - sound built for your mental state.**
