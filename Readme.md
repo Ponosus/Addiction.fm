@@ -1,6 +1,6 @@
 # [Addiction.fm](http://addiction.fm/) 2.0
 
-**[Русская версия страницы](# Русский)**
+[English](#english) | [Русский](#русский)
 
 <img width="1918" height="885" alt="image" src="https://github.com/user-attachments/assets/bdf23332-a122-4b1a-aca1-0bf1150165c8" />
 
