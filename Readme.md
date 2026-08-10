@@ -105,7 +105,7 @@ Sound is **generated in real time** via the Web Audio API - this is not streamin
 | `breaks2.js` | main pack, 219 breaks | optional, but far more fun |
 | `breaks3.js` | pack top-up | optional |
 
-Without `breaks2.js` and `breaks3.js` the radio runs on the base bank; without `breaks.js` it falls back to synthesized drums.
+Without `breaks2.js` and `breaks3.js` the radio runs on the base bank; without `breaks.js` it falls back to synthesized drums. You can delete them for fun, but the songs won't sound very good.
 
 ---
 
@@ -253,7 +253,7 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 | `breaks2.js` | основной пак, 219 брейков | нет, но с ним интереснее |
 | `breaks3.js` | добор пака | нет |
 
-Без `breaks2.js` и `breaks3.js` радио работает на базовом банке, без `breaks.js` - на синтезированных ударных.
+Без `breaks2.js` и `breaks3.js` радио работает на базовом банке, без `breaks.js` - на синтезированных ударных. Вы можете по приколу их удалить, но звучать песни будут не очень 
 
 ---
 
