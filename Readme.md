@@ -2,9 +2,9 @@
 
 **[Русская версия страницы](./Readme.ru.md)**
 
-<img width="1920" height="943" alt="image" src="https://github.com/user-attachments/assets/113699d3-5d8a-4899-a9ce-a645774320bb" />
+<img width="1918" height="885" alt="image" src="https://github.com/user-attachments/assets/bdf23332-a122-4b1a-aca1-0bf1150165c8" />
 
-<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/744b4274-d3a0-4d46-9767-5d77ae5a5b25" />
+<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/1dbd40fd-f5db-41bf-8215-38d193d0a10d" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
 
 **Generative radio. One button - sound built for your mental state.**
 
