@@ -1,4 +1,4 @@
-# [Addiction.fm](http://addiction.fm/) 2.0
+# [Addiction.fm](https://sewerdev.github.io/Addiction.fm/) 2.1
 
 [Русский](#русский)
 
@@ -14,7 +14,9 @@ Addiction.fm is a browser-based generative audio app with no playlists, no accou
 
 ---
 
-## 🔥 What's new in 2.0
+## 🔥 What's new in 2.1
+
+[Addiction.fm is now hosted!](https://sewerdev.github.io/Addiction.fm/)
 
 The biggest update since launch: the mobile interface was rebuilt from scratch, the drum bank grew five and a half times, and you can now run the radio without ever opening the tab.
 
@@ -162,7 +164,9 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 
 ---
 
-## 🔥 Что нового в 2.0
+## 🔥 Что нового в 2.1
+
+[Addiction.fm теперь на хосте!](https://sewerdev.github.io/Addiction.fm/)
 
 Самое крупное обновление с момента запуска: переписан мобильный интерфейс, банк ударных вырос в пять с половиной раз, а управлять радио теперь можно, не открывая вкладку.
 
