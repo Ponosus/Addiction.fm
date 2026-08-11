@@ -140,7 +140,7 @@
   }
   .playbtn:hover{opacity:.88;}
   .playbtn svg{width:20px; height:20px;}
-  .now{min-width:0; flex:1 1 0;}
+  .now{min-width:0; flex:1 1 auto; max-width:320px;}
   .now .title{font-weight:600; font-size:14.5px;}
   .now .sub{font-size:12.5px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
   .ctl{display:flex; flex-direction:column; gap:3px; flex:1.5 1 0; min-width:120px;}
@@ -213,7 +213,7 @@
       gap:12px 12px; padding:14px; border-radius:22px;
     }
     .player .playbtn{grid-area:play; width:48px; height:48px;}
-    .player .now{grid-area:now; text-align:left;}
+    .player .now{grid-area:now; text-align:left; min-width:0;}
     .player #recBtn{grid-area:rec;}
     .player .trackctl{grid-area:tracks; justify-content:space-between; gap:10px;}
     .player .trackctl .trackbtn{flex:1 1 0; padding:9px 0; font-size:17px;}
@@ -276,7 +276,7 @@
 
   <section class="hero">
     <h1 data-i18n="heroTitle">Одна кнопка - и звук создаётся под ваше состояние.</h1>
-    <p data-i18n="heroText">Ничего не стримится и не качается: звук синтезируется прямо в браузере и никогда не повторяется. Без аккаунтов, реко��ендаций и выбор���� треков.</p>
+    <p data-i18n="heroText">Ничего не стримится и не качается: звук синтезируется прямо в браузере и никогда не повторяется. Без аккаунтов, реко  ендаций и выбор     треков.</p>
   </section>
 
   <section class="moods" role="group" aria-label="Состояния">
@@ -316,7 +316,6 @@
         <button class="chip trackbtn" id="prevBtn" aria-label="Предыдущий трек">&#8249;&#8249;</button>
         <span class="trackno" id="trackNo">#1</span>
         <button class="chip trackbtn" id="nextBtn" aria-label="Следующий трек">&#8250;&#8250;</button>
-        <button class="chip rollbtn" id="rollBtn" aria-label="Другой брейк" title="Другой брейк" hidden>&#127922;</button>
       </div>
       <button class="recbtn" id="recBtn" title="Записать и скачать трек">⏺ rec</button>
       <div class="ctl ctl-muffle">
@@ -393,7 +392,7 @@ const I18N = {
     menuLang:"Язык", menuAbout:"ℹ О приложении", close:"Закрыть",
     aboutCredit:"ПОЖАЛУЙСТА, ЕСЛИ ВЫ ИСПОЛЬЗУЕТЕ ЭТОТ КОД, УКАЖИТЕ СОЗДАТЕЛЯ",
     aboutText:"Генеративное радио для мозга: три состояния, бесконечный неповторяющийся звук, синтез в реальном времени через Web Audio API. Без стриминга и зависимостей.",
-    hint:"<kbd>Space</kbd> - пауза · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - состояние · <kbd>V</kbd> - трек назад · <kbd>B</kbd> - трек вперёд · <kbd>X</kbd> - другой брейк · по окончанию таймера звук плавно гаснет",
+    hint:"<kbd>Space</kbd> - пауза · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - состояние · <kbd>V</kbd> - трек назад · <kbd>B</kbd> - трек вперёд · по окончанию таймера звук плавно гаснет",
     shuffleHint:"каждый трек - свой брейк",
     bankWord:"брейков в банке",
     bankMissing:"банк брейков не найден - breaks.js должен лежать рядом с этим файлом",
@@ -416,7 +415,7 @@ const I18N = {
     menuLang:"Language", menuAbout:"ℹ About", close:"Close",
     aboutCredit:"PLEASE CREDIT THE CREATOR IF YOU USE THIS CODE",
     aboutText:"Generative radio for your brain: three states, endless non-repeating sound, synthesized in real time with the Web Audio API. No streaming, no dependencies.",
-    hint:"<kbd>Space</kbd> - pause · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - state · <kbd>V</kbd> - previous track · <kbd>B</kbd> - next track · <kbd>X</kbd> - another break · sound fades out when the timer ends",
+    hint:"<kbd>Space</kbd> - pause · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - state · <kbd>V</kbd> - previous track · <kbd>B</kbd> - next track · sound fades out when the timer ends",
     shuffleHint:"each track - its own break",
     bankWord:"breaks in the bank",
     bankMissing:"breaks bank not found - breaks.js must sit next to this file",
@@ -439,7 +438,7 @@ const I18N = {
     menuLang:"Idioma", menuAbout:"ℹ Acerca de", close:"Cerrar",
     aboutCredit:"POR FAVOR, ACREDITA AL CREADOR SI USAS ESTE CÓDIGO",
     aboutText:"Radio generativa para tu cerebro: tres estados, sonido infinito que nunca se repite, sintetizado en tiempo real con Web Audio API. Sin streaming ni dependencias.",
-    hint:"<kbd>Space</kbd> - pausa · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - estado · <kbd>V</kbd> - pista anterior · <kbd>B</kbd> - pista siguiente · <kbd>X</kbd> - otro break · el sonido se desvanece al acabar el temporizador",
+    hint:"<kbd>Space</kbd> - pausa · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - estado · <kbd>V</kbd> - pista anterior · <kbd>B</kbd> - pista siguiente · el sonido se desvanece al acabar el temporizador",
     shuffleHint:"cada pista - su propio break",
     bankWord:"breaks en el banco",
     bankMissing:"banco de breaks no encontrado - breaks.js debe estar junto a este archivo",
@@ -533,11 +532,15 @@ function tf(f){ return f * Math.pow(2, variation.transpose / 12); }
 
 function updateNow(){
   $("#nowTitle").textContent = L(state.mood);
+  const bn = (state.mood === "drive" && state.breakName) ? state.breakName : "";
   let sub = state.playing
-    ? L("playing") + " · " + L("track") + " #" + trackNo
+    ? (bn ? L("playing") + " · " + bn
+          : L("playing") + " · " + L("track") + " #" + trackNo)
     : (wasStarted ? L("paused") : L("ready"));
-  if (state.mood === "drive" && state.breakName) sub += " · " + state.breakName;
-  $("#nowSub").textContent = sub;
+  if (!state.playing && bn) sub += " · " + bn;
+  const el = $("#nowSub");
+  el.textContent = sub;
+  el.title = bn; /* полное имя во всплывающей подсказке, если всё же обрезалось */
 }
 function msArtist(){
   return (state.mood === "drive" && state.breakName)
@@ -554,7 +557,6 @@ function setMood(m, autoplay){
   trackNo = trackNos[m];
   manualBreak = null;
   state.breakName = "";
-  $("#rollBtn").hidden = (m !== "drive");
   variation = trackParams(trackNo);
   $("#trackNo").textContent = "#" + trackNo;
   $$(".mood").forEach(c => c.classList.toggle("active", c.dataset.m === m));
@@ -625,8 +627,6 @@ function mediaInit(){
   ms.setActionHandler("previoustrack",() => setTrack(trackNo - 1));
   try { ms.setActionHandler("seekforward",  () => setTrack(trackNo + 1)); } catch(e){}
   try { ms.setActionHandler("seekbackward", () => setTrack(trackNo - 1)); } catch(e){}
-  /* «другой брейк» прямо из шторки: на Android это отдельная кнопка */
-  try { ms.setActionHandler("skipad", () => rollBreak()); } catch(e){}
   /* полоса времени обновляется раз в секунду, пока играет */
   if (!msPosTimer) msPosTimer = setInterval(() => { if (state.playing) msPosition(); }, 1000);
 }
@@ -1034,7 +1034,7 @@ function drone(s, freq, type, level, detune){
   o.connect(g); g.connect(s.bus); o.start();
   s.stops.push(() => { try { o.stop(); } catch(e){} });
 }
-/* шина барабанов с общим фи��ьтром - для «приглушённости» */
+/* шина барабанов с общим фи  ьтром - для «приглушённости» */
 /* кусок настоящего брейка: startStep/steps - в шестнадцатых его родного темпа */
 function breakSlice(dest, bb, t, startStep, steps, v){
   const stepDur = 60 / bb.bpm / 4;
@@ -1073,7 +1073,7 @@ document.addEventListener("visibilitychange", () => {
 });
 
 /* ================= musical material ================= */
-/* а��корды: [бас, голоса...] в ля-минорном мире, транспонируются вариацией */
+/* а  корды: [бас, голоса...] в ля-минорном мире, транспонируются вариацией */
 const Am=[110,220,261.63,329.63], F=[87.31,174.61,261.63,349.23], C=[130.81,261.63,329.63,392],
       G=[98,196,246.94,293.66], Em=[82.41,164.81,246.94,329.63], Dm=[73.42,146.83,220,293.66],
       Am9=[110,220,246.94,329.63], Fmaj7=[87.31,174.61,220,261.63], E7=[82.41,164.81,207.65,246.94],
@@ -1277,7 +1277,6 @@ function setTrack(n){
 }
 $("#nextBtn").addEventListener("click", () => setTrack(trackNo + 1));
 $("#prevBtn").addEventListener("click", () => setTrack(trackNo - 1));
-$("#rollBtn").addEventListener("click", rollBreak);
 setTrack(trackNo);
 
 /* ---- запись трека ---- */
@@ -1413,7 +1412,6 @@ document.addEventListener("keydown", e => {
   if (e.key === "3") setMood("calm", true);
   if (e.key === "v" || e.key === "V" || e.key === "м" || e.key === "М") setTrack(trackNo - 1);
   if (e.key === "b" || e.key === "B" || e.key === "и" || e.key === "И") setTrack(trackNo + 1);
-  if (e.key === "x" || e.key === "X" || e.key === "ч" || e.key === "Ч") rollBreak();
   if (e.key === "Escape"){ $("#overlay").hidden = true; $("#menu").hidden = true; }
 });
 
@@ -1472,3 +1470,19 @@ if (location.hash.startsWith("#demo")){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--hello guys XD-->
