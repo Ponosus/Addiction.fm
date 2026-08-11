@@ -2,11 +2,11 @@
 
 [Русский](#русский)
 
-<img width="1918" height="885" alt="image" src="https://github.com/user-attachments/assets/bdf23332-a122-4b1a-aca1-0bf1150165c8" />
+<img width="1918" height="896" alt="image" src="https://github.com/user-attachments/assets/0e1c4752-30f1-4c75-a174-8396a07390bc" />
 
 **Mobile version:**
 
-<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/1dbd40fd-f5db-41bf-8215-38d193d0a10d" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
+<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/72c2653e-4ca4-4e9e-8e8c-ba00ada297b9" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
 
 **Generative radio. One button - sound built for your mental state.**
 
@@ -157,7 +157,7 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 
 **Мобильная версия:**
 
-<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/0306540a-fcf1-4425-86bc-0522a70fc889" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/255de5c5-1ffb-4a90-a7cd-198badc76b3a" />
+<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/61ead776-63ff-4483-bc96-e37a83de79f7" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/255de5c5-1ffb-4a90-a7cd-198badc76b3a" />
 
 **Генеративное радио. Одна кнопка - и звук создаётся под твоё состояние.**
 
@@ -212,7 +212,7 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 ## Зачем это существует
 
 Большинство музыкальных сервисов требуют выбора. Выбор - это отвлечение.
-[Addiction.fm](http://addiction.fm/) убирает выбор полностью: одна кнопка, одно состояние, один поток звука. Работает в браузере, не требует установки, не просит логин.
+[Addiction.fm](http://addiction.fm/](https://sewerdev.github.io/Addiction.fm/) убирает выбор полностью: одна кнопка, одно состояние, один поток звука. Работает в браузере, не требует установки, не просит логин.
 
 ---
 
