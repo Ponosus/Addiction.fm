@@ -6,7 +6,7 @@
 
 **Mobile version:**
 
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/72c2653e-4ca4-4e9e-8e8c-ba00ada297b9" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
+<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/72c2653e-4ca4-4e9e-8e8c-ba00ada297b9" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
 
 **Generative radio. One button - sound built for your mental state.**
 
@@ -157,7 +157,7 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 
 **Мобильная версия:**
 
-<img width="1080" height="2400" alt="image" src="https://github.com/user-attachments/assets/61ead776-63ff-4483-bc96-e37a83de79f7" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/255de5c5-1ffb-4a90-a7cd-198badc76b3a" />
+<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/61ead776-63ff-4483-bc96-e37a83de79f7" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/255de5c5-1ffb-4a90-a7cd-198badc76b3a" />
 
 **Генеративное радио. Одна кнопка - и звук создаётся под твоё состояние.**
 
