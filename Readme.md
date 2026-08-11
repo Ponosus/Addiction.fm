@@ -18,6 +18,11 @@ Addiction.fm is a browser-based generative audio app with no playlists, no accou
 
 [Addiction.fm is now hosted!](https://sewerdev.github.io/Addiction.fm/)
 
+- **Background**: added deep “ocean floor” hum (brown noise, –6 dB/oct), seamless loop, 480 Hz filter.
+- **Reliability**: scheduler looks 1.6 s ahead - tab switching won't break the audio stream.
+- **Interface**: system language (ru/en/es) on first launch, long track names truncated with tooltip, dark theme with no white flash.
+- **Fixes**: audio filter leak patched, held keys no longer duplicate commands, bank counter now shows the real number (268 breaks).
+
 The biggest update since launch: the mobile interface was rebuilt from scratch, the drum bank grew five and a half times, and you can now run the radio without ever opening the tab.
 
 ### System-wide media controls
@@ -38,10 +43,6 @@ The drum bank went from 49 to **268 live loops** - real breaks, not synthesis. T
 ### Every visit sounds new
 
 Track `#1` used to sound the same forever. Now the **bank is reshuffled on every visit**: the same track number today and tomorrow lands on completely different drums. Within a single session the numbering stays deterministic, so going back to `‹‹ #N ››` still returns the same track.
-
-### The 🎲 "another break" button
-
-Love the harmony, hate the drums? The 🎲 button in the player (or the `X` key, or the extra button in the system card) swaps the break **on the fly**, without restarting the track or breaking the mood.
 
 ### Redesigned mobile player
 
@@ -93,7 +94,7 @@ Sound is **generated in real time** via the Web Audio API - this is not streamin
 - **Always different** - the generative engine creates a new version on every press
 - **268 breaks** - the bank is reshuffled on every visit
 - **Deterministic tracks** - the `‹‹ #N ››` counter locks a specific track by seed number within a session
-- **WAV recording** - the ⏺ rec button captures the track in real time and downloads it as `.wav`
+- **WAV recording** - the ⏺️ rec button captures the track in real time and downloads it as `.wav`
 - **Propeller** - spins during playback, gradually coasts to a stop on pause
 
 ---
@@ -168,6 +169,11 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 
 [Addiction.fm теперь на хосте!](https://sewerdev.github.io/Addiction.fm/)
 
+- **Фон**: добавлен глубокий гул «дна океана» (коричневый шум, –6 дБ/окт), бесшовная петля, фильтр 480 Гц.
+- **Надёжность**: планировщик смотрит на 1,6 с вперёд - переключение вкладок не рвёт звук.
+- **Интерфейс**: язык системы (ru/en/es) при первом запуске, длинные имена треков сокращаются с подсказкой, тёмная тема без белой вспышки.
+- **Исправления**: утечка аудиофильтров, зажатые клавиши не дублируют команды, счётчик банка показывает реальное число (268 брейков).
+
 Самое крупное обновление с момента запуска: переписан мобильный интерфейс, банк ударных вырос в пять с половиной раз, а управлять радио теперь можно, не открывая вкладку.
 
 ### Системный пункт управления
@@ -188,10 +194,6 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 ### Каждый заход - новый звук
 
 Раньше трек `#1` всегда звучал одинаково. Теперь **порядок банка перетасовывается заново при каждом заходе на сайт**: тот же номер трека сегодня и завтра - совершенно разные ударные. Внутри одного сеанса номера остаются детерминированными, так что вернуться на `‹‹ #N ››` и услышать то же самое по-прежнему можно.
-
-### Кнопка 🎲 «другой брейк»
-
-Гармония нравится, а ударные - нет? Кнопка 🎲 в плеере (или клавиша `X`, или отдельная кнопка в системной карточке) меняет брейк **на лету**, не перезапуская трек и не сбивая настроение.
 
 ### Редизайн мобильного плеера
 
@@ -243,7 +245,7 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 - **Каждый раз разный** - генеративный движок создаёт новую версию при каждом нажатии
 - **268 брейков** - банк перетасовывается при каждом заходе
 - **Детерминированные треки** - счётчик `‹‹ #N ››` фиксирует конкретный трек по seed-номеру внутри сеанса
-- **Запись в WAV** - кнопка ⏺ rec захватывает трек в реальном времени и скачивает как `.wav`
+- **Запись в WAV** - кнопка ⏺️ rec захватывает трек в реальном времени и скачивает как `.wav`
 - **Пропеллер** - крутится при воспроизведении, плавно тормозит при паузе
 
 ---
