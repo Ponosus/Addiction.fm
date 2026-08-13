@@ -2,7 +2,9 @@
 
 [Русский](#русский)
 
-<img width="1920" height="843" alt="image" src="https://github.com/user-attachments/assets/0e1c4752-30f1-4c75-a174-8396a07390bc" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0e1c4752-30f1-4c75-a174-8396a07390bc" alt="image" width="100%">
+</p>
 
 **Mobile version:**
 
