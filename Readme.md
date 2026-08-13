@@ -8,7 +8,10 @@
 
 **Mobile version:**
 
-<img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/72c2653e-4ca4-4e9e-8e8c-ba00ada297b9" /><img width="280" height="600" alt="image" src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/72c2653e-4ca4-4e9e-8e8c-ba00ada297b9" alt="image" width="45%">
+  <img src="https://github.com/user-attachments/assets/b9c78e26-c095-43c0-8128-979a68d58972" alt="image" width="45%">
+</p>
 
 **Generative radio. One button - sound built for your mental state.**
 
