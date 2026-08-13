@@ -2,7 +2,7 @@
 
 [Русский](#русский)
 
-<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/0e1c4752-30f1-4c75-a174-8396a07390bc" />
+<img width="1920" height="943" alt="image" src="https://github.com/user-attachments/assets/0e1c4752-30f1-4c75-a174-8396a07390bc" />
 
 **Mobile version:**
 
