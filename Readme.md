@@ -1,4 +1,4 @@
-# [Addiction.fm](https://sewerdev.github.io/Addiction.fm/) 2.1
+# [Addiction.fm](https://sewerdev.github.io/Addiction.fm/)
 
 [Русский](#русский)
 
@@ -154,7 +154,7 @@ Telegram: [@VestronVulture](https://t.me/VestronVulture)
 
 # Русский
 
-# [Addiction.fm](http://addiction.fm/) 2.0
+# [Addiction.fm](http://addiction.fm/)
 
 **[English Page](https://github.com/sewerdev/Addiction.fm)**
 
