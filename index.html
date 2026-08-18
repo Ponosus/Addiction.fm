@@ -83,6 +83,12 @@
     font-family:inherit; font-size:14px; padding:9px 8px; border-radius:8px; cursor:pointer;
   }
   .menuitem:hover{background:var(--surface2);}
+  .menuitem.switch{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .menuitem .sw{
+    font-size:11.5px; color:var(--text2); border:1px solid var(--border);
+    border-radius:999px; padding:1px 8px; flex:none;
+  }
+  .menuitem[aria-checked="true"] .sw{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); font-weight:600;}
 
   /* about modal */
   .overlay{
@@ -169,11 +175,15 @@
   .trackbtn{font-size:15px; line-height:1; padding:5px 10px; letter-spacing:-1px;}
   .rollbtn{flex:0 0 auto; font-size:14px; line-height:1; padding:5px 9px;}
   .rollbtn[hidden]{display:none;}
+  /* с включённым кубиком в ряд встаёт лишняя кнопка - отдаём ей место */
+  body.dice-on .now{flex:1 1 0; max-width:none;}
+  body.dice-on .ctl{flex:0 1 160px;}
   .rollbtn.rolled{animation:rollspin .5s cubic-bezier(.2,.7,.2,1);}
   @keyframes rollspin{from{transform:rotate(0deg) scale(.9);} to{transform:rotate(360deg) scale(1);}}
   .ver{font-size:12px; font-weight:600; color:var(--text2); border:1px solid var(--border); border-radius:999px; padding:1px 7px; vertical-align:middle;}
   .bankline{font-size:12.5px; color:var(--text2); margin-top:-6px;}
   .trackno{font-size:12.5px; color:var(--text2); min-width:28px; text-align:center; font-variant-numeric:tabular-nums;}
+  .recwrap{display:flex; align-items:center; gap:6px; flex:0 0 auto;}
   .recbtn{flex:0 0 auto; border:1px solid var(--border); background:var(--bg); color:var(--text2); border-radius:999px; font-size:12px; padding:5px 11px; cursor:pointer; font-family:inherit; min-height:28px; display:flex; align-items:center; gap:5px; transition:background .15s,border-color .15s,color .15s;}
   .recbtn:hover{background:var(--surface2);}
   .recbtn.recording{background:#ff000022; border-color:#e03; color:#e03; animation:recpulse 1s infinite;}
@@ -214,10 +224,10 @@
     }
     .player .playbtn{grid-area:play; width:48px; height:48px;}
     .player .now{grid-area:now; text-align:left; min-width:0;}
-    .player #recBtn{grid-area:rec;}
+    .player .recwrap{grid-area:rec;}
     .player .trackctl{grid-area:tracks; justify-content:space-between; gap:10px;}
     .player .trackctl .trackbtn{flex:1 1 0; padding:9px 0; font-size:17px;}
-    .player .trackctl .rollbtn{flex:0 0 auto; padding:9px 13px; font-size:17px;}
+    .player .recwrap .rollbtn{padding:5px 10px; font-size:15px;}
     .player .trackno{flex:0 0 60px; font-size:14px;}
     .player .ctl-muffle{grid-area:muffle;}
     .player .ctl-vol{grid-area:vol;}
@@ -269,6 +279,11 @@
           <button class="chip lang" data-lang="es">ES</button>
         </div>
         <hr>
+        <button class="menuitem switch" id="diceBtn" role="switch" aria-checked="false">
+          <span data-i18n="menuDice">🎲 Кнопка «другой брейк»</span>
+          <span class="sw" id="diceState">выкл</span>
+        </button>
+        <hr>
         <button class="menuitem" id="aboutBtn" data-i18n="menuAbout">ℹ О приложении</button>
       </div>
     </div>
@@ -317,7 +332,10 @@
         <span class="trackno" id="trackNo">#1</span>
         <button class="chip trackbtn" id="nextBtn" aria-label="Следующий трек">&#8250;&#8250;</button>
       </div>
-      <button class="recbtn" id="recBtn" title="Записать и скачать трек">⏺ rec</button>
+      <div class="recwrap">
+        <button class="chip rollbtn" id="rollBtn" aria-label="Другой брейк" title="Другой брейк" hidden>&#127922;</button>
+        <button class="recbtn" id="recBtn" title="Записать и скачать трек">⏺ rec</button>
+      </div>
       <div class="ctl ctl-muffle">
         <label for="intensity"><span data-i18n="intensity">приглушённость</span><span class="val" id="intVal">45%</span></label>
         <input type="range" id="intensity" min="0" max="100" value="45">
@@ -348,7 +366,7 @@
         <ellipse cx="18" cy="12" rx="5" ry="2.6" fill="var(--accent)" opacity=".85"/>
         <circle cx="12" cy="12" r="2.4" fill="var(--text)"/>
       </svg>
-      Addiction.fm <span class="ver">2.1</span>
+      Addiction.fm <span class="ver">2.2</span>
     </h3>
     <p data-i18n="aboutText"></p>
     <p class="bankline" id="bankLine"></p>
@@ -368,10 +386,12 @@ const $$ = s => document.querySelectorAll(s);
 const CFG_KEY = "addictionfm";
 let cfg = {};
 try { cfg = JSON.parse(localStorage.getItem(CFG_KEY) || "{}"); } catch(e){}
+/* 🎲 «другой брейк»: по умолчанию кнопки нет, включается в настройках */
+let diceOn = cfg.dice === true;
 function saveCfg(){
   try {
     localStorage.setItem(CFG_KEY, JSON.stringify({
-      lang, dark, vol: state.volume, int: state.intensity
+      lang, dark, vol: state.volume, int: state.intensity, dice: diceOn
     }));
   } catch(e){}
 }
@@ -390,9 +410,11 @@ const I18N = {
     selected:"● выбрано", ready:"готов к запуску", playing:"играет", paused:"на паузе",
     track:"трек", intensity:"приглушённость", volume:"громкость",
     menuLang:"Язык", menuAbout:"ℹ О приложении", close:"Закрыть",
+    menuDice:"🎲 Кнопка «другой брейк»", on:"вкл", off:"выкл",
     aboutCredit:"ПОЖАЛУЙСТА, ЕСЛИ ВЫ ИСПОЛЬЗУЕТЕ ЭТОТ КОД, УКАЖИТЕ СОЗДАТЕЛЯ",
     aboutText:"Генеративное радио для мозга: три состояния, бесконечный неповторяющийся звук, синтез в реальном времени через Web Audio API. Без стриминга и зависимостей.",
     hint:"<kbd>Space</kbd> - пауза · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - состояние · <kbd>V</kbd> - трек назад · <kbd>B</kbd> - трек вперёд · по окончанию таймера звук плавно гаснет",
+    hintDice:"<kbd>Space</kbd> - пауза · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - состояние · <kbd>V</kbd> - трек назад · <kbd>B</kbd> - трек вперёд · <kbd>X</kbd> - другой брейк · по окончанию таймера звук плавно гаснет",
     shuffleHint:"каждый трек - свой брейк",
     bankWord:"брейков в банке",
     bankMissing:"банк брейков не найден - breaks.js должен лежать рядом с этим файлом",
@@ -413,9 +435,11 @@ const I18N = {
     selected:"● selected", ready:"ready to play", playing:"playing", paused:"paused",
     track:"track", intensity:"muffle", volume:"volume",
     menuLang:"Language", menuAbout:"ℹ About", close:"Close",
+    menuDice:"🎲 “Another break” button", on:"on", off:"off",
     aboutCredit:"PLEASE CREDIT THE CREATOR IF YOU USE THIS CODE",
     aboutText:"Generative radio for your brain: three states, endless non-repeating sound, synthesized in real time with the Web Audio API. No streaming, no dependencies.",
     hint:"<kbd>Space</kbd> - pause · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - state · <kbd>V</kbd> - previous track · <kbd>B</kbd> - next track · sound fades out when the timer ends",
+    hintDice:"<kbd>Space</kbd> - pause · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - state · <kbd>V</kbd> - previous track · <kbd>B</kbd> - next track · <kbd>X</kbd> - another break · sound fades out when the timer ends",
     shuffleHint:"each track - its own break",
     bankWord:"breaks in the bank",
     bankMissing:"breaks bank not found - breaks.js must sit next to this file",
@@ -436,9 +460,11 @@ const I18N = {
     selected:"● elegido", ready:"listo para reproducir", playing:"sonando", paused:"en pausa",
     track:"pista", intensity:"amortiguación", volume:"volumen",
     menuLang:"Idioma", menuAbout:"ℹ Acerca de", close:"Cerrar",
+    menuDice:"🎲 Botón «otro break»", on:"sí", off:"no",
     aboutCredit:"POR FAVOR, ACREDITA AL CREADOR SI USAS ESTE CÓDIGO",
     aboutText:"Radio generativa para tu cerebro: tres estados, sonido infinito que nunca se repite, sintetizado en tiempo real con Web Audio API. Sin streaming ni dependencias.",
     hint:"<kbd>Space</kbd> - pausa · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - estado · <kbd>V</kbd> - pista anterior · <kbd>B</kbd> - pista siguiente · el sonido se desvanece al acabar el temporizador",
+    hintDice:"<kbd>Space</kbd> - pausa · <kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd> - estado · <kbd>V</kbd> - pista anterior · <kbd>B</kbd> - pista siguiente · <kbd>X</kbd> - otro break · el sonido se desvanece al acabar el temporizador",
     shuffleHint:"cada pista - su propio break",
     bankWord:"breaks en el banco",
     bankMissing:"banco de breaks no encontrado - breaks.js debe estar junto a este archivo",
@@ -448,12 +474,22 @@ const I18N = {
   }
 };
 
-let lang = I18N[cfg.lang] ? cfg.lang : "ru";
+/* язык: сохранённый выбор пользователя важнее; иначе берём язык системы */
+function sysLang(){
+  const ls = (navigator.languages && navigator.languages.length)
+    ? navigator.languages : [navigator.language || "en"];
+  for (const l of ls){
+    const c = String(l).slice(0, 2).toLowerCase();
+    if (I18N[c]) return c;
+  }
+  return "en";
+}
+let lang = I18N[cfg.lang] ? cfg.lang : sysLang();
 function L(key){ return I18N[lang][key] || I18N.ru[key] || key; }
 function applyLang(){
   document.documentElement.lang = lang;
   $$("[data-i18n]").forEach(el => { el.textContent = L(el.dataset.i18n); });
-  $("#hint").innerHTML = L("hint");
+  $("#hint").innerHTML = L(diceOn ? "hintDice" : "hint");
   $("#footer").innerHTML = L("footer");
   $$(".chip.lang").forEach(c => c.classList.toggle("active", c.dataset.lang === lang));
   const rb = $("#rollBtn");
@@ -462,6 +498,21 @@ function applyLang(){
   if (rec){ rec.title = L("recTitle"); rec.setAttribute("aria-label", L("recTitle")); }
   bankInfo();
   updateNow();
+  applyDice();
+}
+
+/* кубик 🎲 «другой брейк»: кнопка в плеере, горячая клавиша X и пункт
+   в шторке появляются только когда переключатель в настройках включён */
+function applyDice(){
+  document.body.classList.toggle("dice-on", diceOn);
+  const btn = $("#diceBtn");
+  if (btn) btn.setAttribute("aria-checked", diceOn ? "true" : "false");
+  const st = $("#diceState");
+  if (st) st.textContent = L(diceOn ? "on" : "off");
+  const rb = $("#rollBtn");
+  if (rb) rb.hidden = !diceOn || state.mood !== "drive";
+  const hint = $("#hint");
+  if (hint) hint.innerHTML = L(diceOn ? "hintDice" : "hint");
 }
 
 /* ================= state ================= */
@@ -557,6 +608,7 @@ function setMood(m, autoplay){
   trackNo = trackNos[m];
   manualBreak = null;
   state.breakName = "";
+  $("#rollBtn").hidden = !diceOn || (m !== "drive");
   variation = trackParams(trackNo);
   $("#trackNo").textContent = "#" + trackNo;
   $$(".mood").forEach(c => c.classList.toggle("active", c.dataset.m === m));
@@ -627,6 +679,8 @@ function mediaInit(){
   ms.setActionHandler("previoustrack",() => setTrack(trackNo - 1));
   try { ms.setActionHandler("seekforward",  () => setTrack(trackNo + 1)); } catch(e){}
   try { ms.setActionHandler("seekbackward", () => setTrack(trackNo - 1)); } catch(e){}
+  /* «другой брейк» прямо из шторки: на Android это отдельная кнопка */
+  try { ms.setActionHandler("skipad", () => { if (diceOn) rollBreak(); }); } catch(e){}
   /* полоса времени обновляется раз в секунду, пока играет */
   if (!msPosTimer) msPosTimer = setInterval(() => { if (state.playing) msPosition(); }, 1000);
 }
@@ -683,7 +737,12 @@ let ctx = null, master = null, analyser = null, session = null;
 function ensureCtx(){
   if (!ctx){
     const AC = window.AudioContext || window.webkitAudioContext;
-    ctx = new AC();
+    /* latencyHint:"playback" - буфер вывода заметно больше, чем у дефолтного
+       "interactive". Свёрнутому окну браузер срезает приоритет, и на коротком
+       буфере звук начинает трещать и шипеть от недогруза. Задержка тут не важна:
+       это радио, а не инструмент. */
+    try { ctx = new AC({ latencyHint: "playback" }); }
+    catch(e){ ctx = new AC(); }
     master = ctx.createGain();
     master.gain.value = Math.pow(state.volume, 1.5);
     const comp = ctx.createDynamicsCompressor();
@@ -1054,10 +1113,24 @@ function schedule(s, stepFn, stepDurFn){
   let step = 0, next = ctx.currentTime + 0.1;
   const tick = () => {
     if (session !== s) return;
+    const now = ctx.currentTime;
     /* в фоновой вкладке таймеры троттлятся до ~1 раза в секунду,
        поэтому упреждение планирования увеличиваем до 1.6 с - иначе дыры в звуке */
     const ahead = document.hidden ? 1.6 : 0.25;
-    while (next < ctx.currentTime + ahead){
+    /* Свёрнутое окно браузер может заморозить на десятки секунд. Догонять
+       пропущенное нельзя: сотни нот со временем «в прошлом» стартуют разом и
+       дают тот самый шипящий всплеск. Прыгаем в «сейчас», сохраняя фазу сетки
+       (число пропущенных шагов округляем до целых тактов - доля не съезжает). */
+    if (next < now - 0.2){
+      const dur = Math.max(stepDurFn() || 0.1, 0.005);
+      const missed = Math.ceil(Math.ceil((now - next) / dur) / 16) * 16;
+      step += missed;
+      next += missed * dur;
+      if (next < now) next = now + 0.05;
+    }
+    /* предохранитель: за один тик планируем не больше 64 шагов */
+    let guard = 64;
+    while (next < now + ahead && guard-- > 0){
       stepFn(step, next);
       next += stepDurFn();
       step++;
@@ -1067,8 +1140,12 @@ function schedule(s, stepFn, stepDurFn){
   s.kick = tick;
   tick();
 }
-/* при смене видимости вкладки сразу перепланируем с новым упреждением */
+/* при смене видимости вкладки сразу перепланируем с новым упреждением;
+   заодно поднимаем контекст, если система усыпила его у свёрнутого окна */
 document.addEventListener("visibilitychange", () => {
+  if (ctx && ctx.state === "suspended" && state.playing){
+    try { ctx.resume(); } catch(e){}
+  }
   if (session && session.kick){ clearTimeout(session.tid); session.kick(); }
 });
 
@@ -1277,6 +1354,7 @@ function setTrack(n){
 }
 $("#nextBtn").addEventListener("click", () => setTrack(trackNo + 1));
 $("#prevBtn").addEventListener("click", () => setTrack(trackNo - 1));
+$("#rollBtn").addEventListener("click", rollBreak);
 setTrack(trackNo);
 
 /* ---- запись трека ---- */
@@ -1412,6 +1490,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "3") setMood("calm", true);
   if (e.key === "v" || e.key === "V" || e.key === "м" || e.key === "М") setTrack(trackNo - 1);
   if (e.key === "b" || e.key === "B" || e.key === "и" || e.key === "И") setTrack(trackNo + 1);
+  if (diceOn && (e.key === "x" || e.key === "X" || e.key === "ч" || e.key === "Ч")) rollBreak();
   if (e.key === "Escape"){ $("#overlay").hidden = true; $("#menu").hidden = true; }
 });
 
@@ -1426,6 +1505,7 @@ document.addEventListener("click", e => {
 });
 $$(".chip.lang").forEach(c =>
   c.addEventListener("click", () => { lang = c.dataset.lang; applyLang(); saveCfg(); }));
+$("#diceBtn").addEventListener("click", () => { diceOn = !diceOn; applyDice(); saveCfg(); });
 $("#aboutBtn").addEventListener("click", () => { menu.hidden = true; overlay.hidden = false; });
 $("#closeAbout").addEventListener("click", () => { overlay.hidden = true; });
 overlay.addEventListener("click", e => { if (e.target === overlay) overlay.hidden = true; });
@@ -1470,19 +1550,3 @@ if (location.hash.startsWith("#demo")){
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--hello guys XD-->
