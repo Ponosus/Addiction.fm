@@ -5,6 +5,7 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/0e1c4752-30f1-4c75-a174-8396a07390bc" alt="image" width="100%">
 </p>
+<img width="2400" height="1080" alt="Screenshot_2026-08-21-00-42-42-104_com android chrome" src="https://github.com/user-attachments/assets/4cc2583d-59c5-4411-8bb0-6cf09a3898bd" />
 
 **Mobile version:**
 
